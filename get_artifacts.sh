@@ -5,8 +5,10 @@ set -e
 GITHUB_REPO="wvarty/TitanLRS"
 GITHUB_BACKPACK_REPO="wvarty/TitanLRS-Backpack"
 
-# Version to download (default to latest if not specified)
-VERSION="${1:-4.0.0-TD}"
+# Version to download (required; pass as argument)
+VERSION="${1:?Usage: ./get_artifacts.sh <firmware-version> [backpack-version]}"
+# Backpack version can be different from main firmware
+BACKPACK_VERSION="${2:-${VERSION}}"
 
 # Directories
 ASSETS_DIR="public/assets"
@@ -17,6 +19,7 @@ echo "  TitanLRS Firmware Downloader"
 echo "================================================"
 echo "Repository: ${GITHUB_REPO}"
 echo "Version: ${VERSION}"
+echo "Backpack Version: ${BACKPACK_VERSION}"
 echo ""
 
 # Create directory structure
@@ -106,7 +109,7 @@ cd ..
 # Download TitanLRS Backpack firmware
 echo ""
 echo "📥 Downloading TitanLRS Backpack firmware..."
-BACKPACK_URL="https://github.com/${GITHUB_BACKPACK_REPO}/releases/download/v${VERSION}/backpack-${VERSION}.zip"
+BACKPACK_URL="https://github.com/${GITHUB_BACKPACK_REPO}/releases/download/v${BACKPACK_VERSION}/backpack-${BACKPACK_VERSION}.zip"
 echo "URL: ${BACKPACK_URL}"
 
 mkdir -p backpack
@@ -116,15 +119,15 @@ curl -L -f "${BACKPACK_URL}" -o backpack.zip && {
   echo "📦 Extracting backpack firmware..."
 
   # Create version-specific directory
-  mkdir -p "${VERSION}"
-  cd "${VERSION}"
+  mkdir -p "${BACKPACK_VERSION}"
+  cd "${BACKPACK_VERSION}"
   unzip -q ../backpack.zip
 
   # Handle nested backpack directory if it exists
-  if [ -d "backpack-${VERSION}" ]; then
-    echo "Moving backpack-${VERSION} contents..."
+  if [ -d "backpack-${BACKPACK_VERSION}" ]; then
+    echo "Moving backpack-${BACKPACK_VERSION} contents..."
     shopt -s dotglob 2>/dev/null || true  # Enable hidden files in bash
-    mv backpack-${VERSION}/* . 2>/dev/null || cp -r backpack-${VERSION}/* . && rm -rf backpack-${VERSION}
+    mv backpack-${BACKPACK_VERSION}/* . 2>/dev/null || cp -r backpack-${BACKPACK_VERSION}/* . && rm -rf backpack-${BACKPACK_VERSION}
   elif [ -d "backpack" ]; then
     echo "Moving backpack contents..."
     shopt -s dotglob 2>/dev/null || true
@@ -138,7 +141,7 @@ curl -L -f "${BACKPACK_URL}" -o backpack.zip && {
   cat > index.json << EOF
 {
   "tags": {
-    "${VERSION}": "${VERSION}"
+    "${BACKPACK_VERSION}": "${BACKPACK_VERSION}"
   },
   "branches": {}
 }
@@ -147,7 +150,7 @@ EOF
   echo "✅ Backpack firmware downloaded successfully!"
 
 } || {
-  echo "⚠️  Warning: Backpack firmware not available for version ${VERSION}"
+  echo "⚠️  Warning: Backpack firmware not available for version ${BACKPACK_VERSION}"
   echo "   This is normal if backpack hasn't been released yet."
   echo "   Continuing without backpack firmware..."
 
@@ -176,10 +179,10 @@ if [ -d "${FIRMWARE_DIR}/${VERSION}" ]; then
   echo "├── hardware/"
   echo "│   └── targets.json"
 
-  if [ -d "backpack/${VERSION}" ]; then
+  if [ -d "backpack/${BACKPACK_VERSION}" ]; then
     echo "└── backpack/"
-    echo "    └── ${VERSION}/"
-    ls "backpack/${VERSION}" | head -10 | sed 's/^/        ├── /'
+    echo "    └── ${BACKPACK_VERSION}/"
+    ls "backpack/${BACKPACK_VERSION}" | head -10 | sed 's/^/        ├── /'
   fi
 fi
 

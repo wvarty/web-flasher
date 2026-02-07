@@ -27,6 +27,12 @@ To download a specific version, pass it as an argument:
 ./get_artifacts.sh <version>
 ```
 
+If the backpack release uses a different version than the main firmware, pass it as a second argument:
+
+```bash
+./get_artifacts.sh <firmware-version> <backpack-version>
+```
+
 Available versions: https://github.com/wvarty/TitanLRS/releases
 
 ### 2. Install Dependencies
