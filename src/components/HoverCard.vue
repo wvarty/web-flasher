@@ -57,42 +57,40 @@ function imageClass(isHovering) {
 }
 
 .default-card {
-  border-radius: 0.5rem;
-  border: 1px solid #E8E8E8;
-  background-color: #F8F8F8;
-  transition: all ease-in 300ms;
+  border-radius: 14px;
+  border: 1px solid #1f1f1f;
+  background: linear-gradient(180deg, rgba(42, 42, 42, 0.85), rgba(26, 26, 26, 0.95));
+  transition: transform 280ms ease, box-shadow 280ms ease, border-color 280ms ease;
   box-shadow: none;
   text-align: left;
   padding: 0;
 }
 
 .hover-card {
-  transform: scale(104%);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
+  transform: translateY(-6px);
+  border-color: #fa8423;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.45);
 }
 
 .v-card-title {
   padding: 0 20px 0 20px;
+  margin: 18px 0 6px 0;
+  font-weight: 600;
+  font-size: 16px;
+  color: #ffffff;
 }
 
 .v-card-text {
   padding: 0 20px 20px 20px;
-}
-
-.v-card-title {
-  margin: 1.5rem 0 0.25rem 0;
-  font-weight: 600;
-  color: #242527;
-}
-
-.v-card-text {
-  color: #656669
+  font-size: 13px;
+  color: #9ca3af;
 }
 
 .parent {
   display: flex;
   justify-content: center;
-  background-color: #F0F0F0;
+  background: radial-gradient(120px 80px at 50% 40%, rgba(250, 132, 35, 0.22), rgba(26, 26, 26, 0));
+  border-bottom: 1px solid #1f1f1f;
   height: 140px;
   align-items: center;
 }
