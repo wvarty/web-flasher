@@ -59,11 +59,13 @@ unzip -q ../firmware.zip
 
 # Handle nested firmware directory if it exists
 if [ -d "firmware-${VERSION}" ]; then
-  mv firmware-${VERSION}/* .
-  rmdir firmware-${VERSION}
+  echo "Moving firmware-${VERSION} contents..."
+  shopt -s dotglob 2>/dev/null || true  # Enable hidden files in bash
+  mv firmware-${VERSION}/* . 2>/dev/null || cp -r firmware-${VERSION}/* . && rm -rf firmware-${VERSION}
 elif [ -d "firmware" ]; then
-  mv firmware/* .
-  rmdir firmware
+  echo "Moving firmware contents..."
+  shopt -s dotglob 2>/dev/null || true
+  mv firmware/* . 2>/dev/null || cp -r firmware/* . && rm -rf firmware
 fi
 
 cd ..
@@ -120,11 +122,13 @@ curl -L -f "${BACKPACK_URL}" -o backpack.zip && {
 
   # Handle nested backpack directory if it exists
   if [ -d "backpack-${VERSION}" ]; then
-    mv backpack-${VERSION}/* .
-    rmdir backpack-${VERSION}
+    echo "Moving backpack-${VERSION} contents..."
+    shopt -s dotglob 2>/dev/null || true  # Enable hidden files in bash
+    mv backpack-${VERSION}/* . 2>/dev/null || cp -r backpack-${VERSION}/* . && rm -rf backpack-${VERSION}
   elif [ -d "backpack" ]; then
-    mv backpack/* .
-    rmdir backpack
+    echo "Moving backpack contents..."
+    shopt -s dotglob 2>/dev/null || true
+    mv backpack/* . 2>/dev/null || cp -r backpack/* . && rm -rf backpack
   fi
 
   cd ..
