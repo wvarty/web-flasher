@@ -51,17 +51,31 @@ watch(flashBranch, updateVersions)
 watchPostEffect(() => {
   if (store.version) {
     store.folder = `./assets/${store.firmware}/${store.version}`
-    fetch(`./assets/${store.firmware}/hardware/targets.json`).then(r => r.json()).then(r => {
-      hardware.value = r
-      store.vendor = null
-      vendors.value = []
-      for (const [k, v] of Object.entries(hardware.value)) {
-        let hasTargets = v.hasOwnProperty(store.targetType);
-        if (hasTargets && v.name) vendors.value.push({title: v.name, value: k})
+    const targetUrls = [
+      `./assets/${store.firmware}/${store.version}/hardware/targets.json`,
+      `./assets/${store.firmware}/backpack-${store.version}/hardware/targets.json`,
+      `./assets/${store.firmware}/hardware/targets.json`
+    ]
+    const loadTargets = async () => {
+      for (const url of targetUrls) {
+        try {
+          const response = await fetch(url)
+          if (!response.ok) throw new Error('Failed to load targets.json')
+          const data = await response.json()
+          hardware.value = data
+          store.vendor = null
+          vendors.value = []
+          for (const [k, v] of Object.entries(hardware.value)) {
+            let hasTargets = v.hasOwnProperty(store.targetType)
+            if (hasTargets && v.name) vendors.value.push({title: v.name, value: k})
+          }
+          vendors.value.sort((a, b) => a.title.localeCompare(b.title))
+          return
+        } catch (_ignore) {
+        }
       }
-      vendors.value.sort((a, b) => a.title.localeCompare(b.title))
-    }).catch((_ignore) => {
-    })
+    }
+    loadTargets()
   }
 })
 
