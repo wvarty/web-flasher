@@ -53,7 +53,7 @@ store.options.flashMethod = urlParams.get('method');
       <VAppBar height="320" class="td-app-bar" flat>
         <div class="td-app-bar__content td-app-bar__content--stack">
           <div class="td-brand">
-            <img class="td-logo" src="/assets/brand/TD%20Full%20Logo%20white.png" alt="Titan Dynamics" />
+            <img class="td-logo" src="/assets/brand/td-full-logo-white.png" alt="Titan Dynamics" />
           </div>
           <div class="td-title__sub">TitanLRS Web Flasher</div>
           <div class="td-build">Git: @GITHASH@</div>

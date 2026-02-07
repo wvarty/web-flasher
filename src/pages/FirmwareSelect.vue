@@ -21,14 +21,14 @@ function setFirmware(firmware, targetType) {
       <VRow class="firmware-row firmware-options">
         <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('firmware', 'tx')"
-              image="/assets/brand/Controller%20Icon.png" hover-image="/assets/brand/Controller%20Icon.png"
+                    image="/assets/brand/controller-icon.png" hover-image="/assets/brand/controller-icon.png"
                     title="Transmitter"
                     text="Install or update the main TitanLRS firmware on any compatible Transmitter module.
                     Internal and external modules supported."/>
         </VCol>
         <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('firmware', 'rx')"
-              image="/assets/brand/Radio%20Icon.png" hover-image="/assets/brand/Radio%20Icon.png"
+                    image="/assets/brand/radio-icon.png" hover-image="/assets/brand/radio-icon.png"
                     title="Receiver"
                     text="Install or update the main TitanLRS firmware on any compatible Receiver. Serial and PWM
                     Receivers supported."/>
@@ -42,13 +42,13 @@ function setFirmware(firmware, targetType) {
       <VRow class="firmware-row firmware-options">
         <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('backpack', 'txbp')"
-                    image="/assets/brand/Module%20Icon.png" hover-image="/assets/brand/Module%20Icon.png"
+                    image="/assets/brand/module-icon.png" hover-image="/assets/brand/module-icon.png"
                     title="Transmitter Backpack"
                     text="Install or update the firmware on the secondary Backpack module inside the Transmitter."/>
         </VCol>
         <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('backpack', 'vrx')"
-                    image="/assets/brand/Video%20Receiver%20Combined%20Icon.png" hover-image="/assets/brand/Video%20Receiver%20Combined%20Icon.png"
+                    image="/assets/brand/video-receiver-combined-icon.png" hover-image="/assets/brand/video-receiver-combined-icon.png"
                     title="Backpack Receiver"
                     text="Install or update the firmware on a Backpack receiver. For example: A VRX Backpack RX."/>
         </VCol>
