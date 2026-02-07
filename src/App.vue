@@ -50,18 +50,13 @@ store.options.flashMethod = urlParams.get('method');
   <VApp class="td-app">
     <VLayout>
       <ReloadPrompt />
-      <VAppBar height="220" class="td-app-bar" flat>
-        <div class="td-app-bar__content">
+      <VAppBar height="320" class="td-app-bar" flat>
+        <div class="td-app-bar__content td-app-bar__content--stack">
           <div class="td-brand">
             <img class="td-logo" src="/assets/brand/TD%20Full%20Logo%20white.png" alt="Titan Dynamics" />
           </div>
-          <div class="td-title">
-            <div class="td-title__name">Titan Dynamics</div>
-            <div class="td-title__sub">Web Flasher</div>
-          </div>
-          <div class="td-build">
-            Git: @GITHASH@
-          </div>
+          <div class="td-title__sub">TitanLRS Web Flasher</div>
+          <div class="td-build">Git: @GITHASH@</div>
         </div>
       </VAppBar>
       <VMain class="td-main">
@@ -105,17 +100,18 @@ store.options.flashMethod = urlParams.get('method');
 
 <style>
 .td-app-bar {
-  background: linear-gradient(120deg, rgba(26, 26, 26, 0.98), rgba(10, 10, 10, 0.92)) !important;
-  border-bottom: 1px solid #1f1f1f;
+  background: #0a0a0a !important;
+  border-bottom: 0;
 }
 
 .td-app-bar__content {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  padding: 16px 48px;
+  padding: 28px 16px 0 16px;
 }
 
 .td-brand {
@@ -124,50 +120,41 @@ store.options.flashMethod = urlParams.get('method');
 }
 
 .td-logo {
-  max-height: 64px;
-  width: auto;
-}
-
-.td-title {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.td-title__name {
-  font-size: 28px;
-  font-weight: 400;
-  color: #ffffff;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  width: 673px;
+  height: 150px;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .td-title__sub {
-  font-size: 16px;
-  font-weight: 600;
-  color: #9ca3af;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+  font-size: 36px;
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  text-align: center;
 }
 
 .td-build {
-  font-size: 12px;
-  color: #9ca3af;
-  letter-spacing: 0.1em;
+  font-size: 11px;
+  color: rgba(156, 163, 175, 0.7);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  justify-self: end;
+  text-align: center;
+  margin-top: -16px;
 }
 
 @media (max-width: 960px) {
-  .td-app-bar__content {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-    padding: 16px 24px;
+  .td-logo {
+    max-height: 96px;
+  }
+
+  .td-title__sub {
+    font-size: 22px;
   }
 
   .td-build {
-    justify-self: center;
+    margin-top: 4px;
   }
 }
 </style>

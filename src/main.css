@@ -2,17 +2,20 @@
 
 :root {
     --td-primary: #FA8423;
-    --td-primary-alt: #B8860B;
+    --td-border: #FA8423;
     --td-bg: #0A0A0A;
-    --td-surface: #1A1A1A;
-    --td-surface-2: #2A2A2A;
-    --td-border: #1F1F1F;
+    --td-card-bg: #1F1F1F;
+    --td-option-bg: #1F1F1F;
     --td-text: #FFFFFF;
     --td-text-muted: #9CA3AF;
+    --td-text-dark: #111827;
+    --td-border-light: #E5E7EB;
 }
 
 html, body, #app {
-    height: 100%;
+    height: auto;
+    min-height: 100%;
+    overflow-y: scroll;
 }
 
 body {
@@ -20,27 +23,36 @@ body {
     background: var(--td-bg);
     color: var(--td-text);
     margin: 0;
+    overflow-y: auto;
+}
+
+.v-application,
+.v-application__wrap {
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+.td-main {
+    padding: 48px 0 80px 0;
 }
 
 .v-application {
-    background:
-        radial-gradient(900px 300px at 12% -10%, rgba(250, 132, 35, 0.18), rgba(10, 10, 10, 0))
-        , radial-gradient(700px 240px at 88% -5%, rgba(184, 134, 11, 0.16), rgba(10, 10, 10, 0))
-        , var(--td-bg);
+    background: var(--td-bg);
 }
 
 .containerMain {
     z-index: 10;
-    border: 1px solid var(--td-border);
-    background: linear-gradient(180deg, rgba(42, 42, 42, 0.85), rgba(26, 26, 26, 0.95));
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(6px);
+    border: 2px solid var(--td-border);
+    background: transparent;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: none;
 }
 
 .containerHeader {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     text-align: left;
 }
 
@@ -65,16 +77,16 @@ body {
 }
 
 .section {
-    margin-top: -110px;
+    margin-top: 0;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 48px;
     position: relative;
     z-index: 20;
 }
 
 .v-field {
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .v-field__input,
@@ -84,7 +96,7 @@ body {
 }
 
 .v-field__outline {
-    color: var(--td-border) !important;
+    color: #3a3a3a !important;
 }
 
 .v-field--focused .v-field__outline {
@@ -108,11 +120,7 @@ body {
 
 @media (max-width: 960px) {
     .containerMain {
-        padding: 28px;
-    }
-
-    .section {
-        margin-top: -80px;
+        padding: 24px;
     }
 }
 

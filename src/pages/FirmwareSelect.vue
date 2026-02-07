@@ -13,45 +13,47 @@ function setFirmware(firmware, targetType) {
 </script>
 
 <template>
-  <div class="containerMain">
-    <div class="containerHeader">
-      <VCardTitle>Main Firmware</VCardTitle>
-    </div>
-    <VRow>
-      <VCol md="6">
+  <div class="firmware-grid">
+    <div class="containerMain firmware-group">
+      <div class="containerHeader">
+        <VCardTitle>Main Firmware</VCardTitle>
+      </div>
+      <VRow class="firmware-row firmware-options">
+        <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('firmware', 'tx')"
               image="/assets/brand/Controller%20Icon.png" hover-image="/assets/brand/Controller%20Icon.png"
                     title="Transmitter"
                     text="Install or update the main TitanLRS firmware on any compatible Transmitter module.
                     Internal and external modules supported."/>
-      </VCol>
-      <VCol md="6">
+        </VCol>
+        <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('firmware', 'rx')"
               image="/assets/brand/Radio%20Icon.png" hover-image="/assets/brand/Radio%20Icon.png"
                     title="Receiver"
                     text="Install or update the main TitanLRS firmware on any compatible Receiver. Serial and PWM
                     Receivers supported."/>
-      </VCol>
-    </VRow>
-  </div>
-  <div class="containerMain">
-    <div class="containerHeader">
-      <VCardTitle>Backpack Firmware</VCardTitle>
+        </VCol>
+      </VRow>
     </div>
-    <VRow>
-      <VCol md="6">
+    <div class="containerMain firmware-group">
+      <div class="containerHeader">
+        <VCardTitle>Backpack Firmware</VCardTitle>
+      </div>
+      <VRow class="firmware-row firmware-options">
+        <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('backpack', 'txbp')"
                     image="/assets/brand/Module%20Icon.png" hover-image="/assets/brand/Module%20Icon.png"
                     title="Transmitter Backpack"
                     text="Install or update the firmware on the secondary Backpack module inside the Transmitter."/>
-      </VCol>
-      <VCol md="6">
+        </VCol>
+        <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('backpack', 'vrx')"
                     image="/assets/brand/Video%20Receiver%20Combined%20Icon.png" hover-image="/assets/brand/Video%20Receiver%20Combined%20Icon.png"
                     title="Backpack Receiver"
                     text="Install or update the firmware on a Backpack receiver. For example: A VRX Backpack RX."/>
-      </VCol>
-    </VRow>
+        </VCol>
+      </VRow>
+    </div>
   </div>
   <!--
   <VRow>
@@ -78,8 +80,9 @@ function setFirmware(firmware, targetType) {
   padding: 0;
   font-size: 24px;
   font-weight: 600;
-  color: #ffffff;
-  letter-spacing: 0.02em;
+  line-height: 28.8px;
+  color: #fa8423;
+  letter-spacing: 0;
 }
 
 .v-card-subtitle {
@@ -87,5 +90,51 @@ function setFirmware(firmware, targetType) {
   font-size: 16px;
   font-weight: 600;
   color: #9ca3af;
+}
+
+.firmware-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  justify-content: center;
+  width: 1032px;
+  height: 383px;
+  margin: 0 auto;
+}
+
+.firmware-group {
+  width: 500px;
+  height: 383px;
+}
+
+.firmware-group :deep(.v-row) {
+  height: 100%;
+  align-content: space-between;
+}
+
+.firmware-group :deep(.firmware-options) {
+  width: 100%;
+  height: 266px;
+  margin-left: 0;
+  margin-right: 0;
+  row-gap: 16px;
+}
+
+.firmware-group :deep(.firmware-options > .v-col) {
+  padding: 0;
+}
+
+@media (max-width: 960px) {
+  .firmware-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 100%;
+    height: auto;
+  }
+
+  .firmware-group {
+    width: min(500px, 100%);
+    height: auto;
+  }
 }
 </style>
