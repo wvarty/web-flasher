@@ -3,6 +3,7 @@ set -e
 
 # TitanLRS Configuration
 GITHUB_REPO="wvarty/TitanLRS"
+GITHUB_BACKPACK_REPO="wvarty/TitanLRS-Backpack"
 
 # Version to download (default to latest if not specified)
 VERSION="${1:-4.0.0-TD}"
@@ -100,15 +101,62 @@ EOF
 
 cd ..
 
-# Create empty backpack structure (TitanLRS may not have backpack firmware yet)
-echo "📝 Creating backpack structure..."
+# Download TitanLRS Backpack firmware
+echo ""
+echo "📥 Downloading TitanLRS Backpack firmware..."
+BACKPACK_URL="https://github.com/${GITHUB_BACKPACK_REPO}/releases/download/v${VERSION}/backpack-${VERSION}.zip"
+echo "URL: ${BACKPACK_URL}"
+
 mkdir -p backpack
-cat > backpack/index.json << EOF
+cd backpack
+
+curl -L -f "${BACKPACK_URL}" -o backpack.zip && {
+  echo "📦 Extracting backpack firmware..."
+
+  # Create version-specific directory
+  mkdir -p "${VERSION}"
+  cd "${VERSION}"
+  unzip -q ../backpack.zip
+
+  # Handle nested backpack directory if it exists
+  if [ -d "backpack-${VERSION}" ]; then
+    mv backpack-${VERSION}/* .
+    rmdir backpack-${VERSION}
+  elif [ -d "backpack" ]; then
+    mv backpack/* .
+    rmdir backpack
+  fi
+
+  cd ..
+  rm backpack.zip
+
+  # Create backpack index.json with the downloaded version
+  cat > index.json << EOF
+{
+  "tags": {
+    "${VERSION}": "${VERSION}"
+  },
+  "branches": {}
+}
+EOF
+
+  echo "✅ Backpack firmware downloaded successfully!"
+
+} || {
+  echo "⚠️  Warning: Backpack firmware not available for version ${VERSION}"
+  echo "   This is normal if backpack hasn't been released yet."
+  echo "   Continuing without backpack firmware..."
+
+  # Create empty backpack structure as fallback
+  cat > index.json << EOF
 {
   "tags": {},
   "branches": {}
 }
 EOF
+}
+
+cd ..
 
 echo ""
 echo "✅ Firmware ${VERSION} downloaded successfully!"
@@ -121,8 +169,14 @@ if [ -d "${FIRMWARE_DIR}/${VERSION}" ]; then
   echo "firmware/"
   echo "├── ${VERSION}/"
   ls "${FIRMWARE_DIR}/${VERSION}" | head -10 | sed 's/^/│   ├── /'
-  echo "└── hardware/"
-  echo "    └── targets.json"
+  echo "├── hardware/"
+  echo "│   └── targets.json"
+
+  if [ -d "backpack/${VERSION}" ]; then
+    echo "└── backpack/"
+    echo "    └── ${VERSION}/"
+    ls "backpack/${VERSION}" | head -10 | sed 's/^/        ├── /'
+  fi
 fi
 
 echo ""
