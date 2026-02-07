@@ -2,6 +2,11 @@
 import {store} from '../js/state';
 import HoverCard from '../components/HoverCard.vue';
 
+import controllerIcon from '../assets/brand/controller-icon.png';
+import radioIcon from '../assets/brand/radio-icon.png';
+import moduleIcon from '../assets/brand/module-icon.png';
+import vrxIcon from '../assets/brand/video-receiver-combined-icon.png';
+
 const emit = defineEmits(['onClick']);
 
 // Set firmware and targetType in state store, then update page to pages selection page
@@ -21,14 +26,14 @@ function setFirmware(firmware, targetType) {
       <VRow class="firmware-row firmware-options">
         <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('firmware', 'tx')"
-                    image="/assets/brand/controller-icon.png" hover-image="/assets/brand/controller-icon.png"
+                    :image="controllerIcon" :hover-image="controllerIcon"
                     title="Transmitter"
                     text="Install or update the main TitanLRS firmware on any compatible Transmitter module.
                     Internal and external modules supported."/>
         </VCol>
         <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('firmware', 'rx')"
-                    image="/assets/brand/radio-icon.png" hover-image="/assets/brand/radio-icon.png"
+                    :image="radioIcon" :hover-image="radioIcon"
                     title="Receiver"
                     text="Install or update the main TitanLRS firmware on any compatible Receiver. Serial and PWM
                     Receivers supported."/>
@@ -42,13 +47,13 @@ function setFirmware(firmware, targetType) {
       <VRow class="firmware-row firmware-options">
         <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('backpack', 'txbp')"
-                    image="/assets/brand/module-icon.png" hover-image="/assets/brand/module-icon.png"
+                    :image="moduleIcon" :hover-image="moduleIcon"
                     title="Transmitter Backpack"
                     text="Install or update the firmware on the secondary Backpack module inside the Transmitter."/>
         </VCol>
         <VCol md="12">
         <HoverCard min-height="100%" @click="setFirmware('backpack', 'vrx')"
-                    image="/assets/brand/video-receiver-combined-icon.png" hover-image="/assets/brand/video-receiver-combined-icon.png"
+                    :image="vrxIcon" :hover-image="vrxIcon"
                     title="Backpack Receiver"
                     text="Install or update the firmware on a Backpack receiver. For example: A VRX Backpack RX."/>
         </VCol>

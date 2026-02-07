@@ -14,6 +14,7 @@ import SerialFlash from "./pages/SerialFlash.vue";
 import STLinkFlash from "./pages/STLinkFlash.vue";
 
 import ReloadPrompt from './components/ReloadPrompt.vue';
+import logoUrl from './assets/brand/td-full-logo-white.png';
 
 function stepPrev() {
   if (store.currentStep === 1) {
@@ -53,7 +54,7 @@ store.options.flashMethod = urlParams.get('method');
       <VAppBar height="320" class="td-app-bar" flat>
         <div class="td-app-bar__content td-app-bar__content--stack">
           <div class="td-brand">
-            <img class="td-logo" src="/assets/brand/td-full-logo-white.png" alt="Titan Dynamics" />
+            <img class="td-logo" :src="logoUrl" alt="Titan Dynamics" />
           </div>
           <div class="td-title__sub">TitanLRS Web Flasher</div>
           <div class="td-build">Git: @GITHASH@</div>
