@@ -2,7 +2,7 @@
 
 Web-hosted flasher for TitanLRS firmware (ExpressLRS fork for Titan Dynamics).
 
-Based on the official [ExpressLRS Web Flasher](https://github.com/ExpressLRS/web-flasher).
+Based on the [ExpressLRS Web Flasher](https://github.com/ExpressLRS/web-flasher).
 
 ## Supported Flashing Methods
 
