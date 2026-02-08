@@ -19,8 +19,6 @@ jobs:
       - name: Get TitanLRS firmware artifacts
         run: |
           bash get_artifacts.sh
-          GITHASH=`git rev-parse --short HEAD`
-          sed -i~ "s/@GITHASH@/$GITHASH/" src/App.vue
 
       - name: Build
         run: npm install && npm run build

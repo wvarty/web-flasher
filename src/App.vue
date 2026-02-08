@@ -97,7 +97,6 @@ store.options.flashMethod = urlParams.get('method');
               </div>
             </VContainer>
           </VFadeTransition>
-          <div class="td-build">Git: @GITHASH@</div>
         </div>
       </VMain>
     </VLayout>
@@ -141,14 +140,6 @@ store.options.flashMethod = urlParams.get('method');
   text-align: center;
 }
 
-.td-build {
-  font-size: 11px;
-  color: rgba(156, 163, 175, 0.7);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-align: center;
-  margin-top: 24px;
-}
 
 @media (max-width: 960px) {
   .td-logo {
@@ -159,9 +150,6 @@ store.options.flashMethod = urlParams.get('method');
     font-size: 27px;
   }
 
-  .td-build {
-    margin-top: 16px;
-  }
 }
 
 @media (max-width: 640px) {
