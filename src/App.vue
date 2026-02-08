@@ -20,6 +20,8 @@ import logoUrl from './assets/brand/td-full-logo-white.png';
 
 const {mobile} = useDisplay();
 const appBarHeight = computed(() => (mobile.value ? 170 : 320));
+const isLastStep = computed(() => store.currentStep === 3);
+const nextLabel = computed(() => (isLastStep.value ? 'Done' : 'Next'));
 
 function goHome() {
   resetState()
@@ -40,9 +42,17 @@ function disableNext() {
   } else if (store.currentStep === 2) {
     return !store.options.flashMethod ? "next" : false
   } else if (store.currentStep === 3) {
-    return "next"
+    return false
   }
   return false
+}
+
+function stepNext() {
+  if (isLastStep.value) {
+    goHome()
+    return
+  }
+  store.currentStep++
 }
 
 // Handle any query params
@@ -99,7 +109,7 @@ store.options.flashMethod = urlParams.get('method');
                     <STLinkFlash v-else-if="store.options.flashMethod==='stlink'"/>
                     <SerialFlash v-else/>
                   </template>
-                  <VStepperActions :disabled="disableNext()" @click:prev="stepPrev" @click:next="store.currentStep++"/>
+                  <VStepperActions :disabled="disableNext()" :next-text="nextLabel" @click:prev="stepPrev" @click:next="stepNext"/>
                 </VStepper>
               </div>
             </VContainer>
