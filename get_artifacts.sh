@@ -7,7 +7,75 @@ GITHUB_BACKPACK_REPO="Titan-Dynamics/TitanLRS-Backpack"
 
 github_api_get() {
   local url="$1"
-  curl -fsSL "${url}"
+  curl -fsSL "${url}" || return 1
+}
+
+fetch_release_json() {
+  local repo="$1"
+  local tag="$2"
+  local json
+
+  if json=$(github_api_get "https://api.github.com/repos/${repo}/releases/tags/${tag}"); then
+    printf '%s\n' "${json}"
+    return 0
+  fi
+
+  local alt_tag
+  if [ "${tag#v}" != "${tag}" ]; then
+    alt_tag="${tag#v}"
+  else
+    alt_tag="v${tag}"
+  fi
+
+  if json=$(github_api_get "https://api.github.com/repos/${repo}/releases/tags/${alt_tag}"); then
+    printf '%s\n' "${json}"
+    return 0
+  fi
+
+  return 1
+}
+
+find_release_asset_url() {
+  local release_json="$1"
+  local version="$2"
+  local prefix="$3"
+
+  printf '%s\n' "${release_json}" | awk -v version="${version}" -v prefix="${prefix}" '
+    BEGIN {
+      name=""
+      first_zip=""
+    }
+    /"name":/ {
+      name=$0
+      gsub(/.*"name":[[:space:]]*"/, "", name)
+      gsub(/".*/, "", name)
+      next
+    }
+    /"browser_download_url":/ {
+      url=$0
+      gsub(/.*"browser_download_url":[[:space:]]*"/, "", url)
+      gsub(/".*/, "", url)
+
+      if (prefix != "" && name ~ ("^" prefix) && name ~ version && name ~ /\.zip$/) {
+        print url
+        exit
+      }
+
+      if (name ~ version && name ~ /\.zip$/) {
+        print url
+        exit
+      }
+
+      if (name ~ /\.zip$/ && first_zip == "") {
+        first_zip = url
+      }
+    }
+    END {
+      if (first_zip != "") {
+        print first_zip
+      }
+    }
+  '
 }
 
 fetch_all_release_versions() {
@@ -48,7 +116,7 @@ write_index_json() {
   } > "${output_path}"
 }
 
-REQUESTED_VERSION="$1"
+REQUESTED_VERSION="${1#v}"
 
 if [ -n "${REQUESTED_VERSION}" ]; then
   FIRMWARE_VERSIONS="${REQUESTED_VERSION}"
@@ -102,7 +170,22 @@ cd firmware
 echo "📥 Downloading TitanLRS firmware releases..."
 readarray -t firmware_versions <<< "${FIRMWARE_VERSIONS}"
 for version in "${firmware_versions[@]}"; do
-  FIRMWARE_URL="https://github.com/${GITHUB_REPO}/releases/download/v${version}/firmware-${version}.zip"
+  if ! release_json=$(fetch_release_json "${GITHUB_REPO}" "v${version}"); then
+    echo ""
+    echo "❌ Error: Failed to fetch release metadata for firmware version ${version}"
+    echo ""
+    exit 1
+  fi
+
+  FIRMWARE_URL=$(find_release_asset_url "${release_json}" "${version}" "firmware-")
+
+  if [ -z "${FIRMWARE_URL}" ]; then
+    echo ""
+    echo "❌ Error: No firmware zip asset found for version ${version}"
+    echo ""
+    exit 1
+  fi
+
   echo "URL: ${FIRMWARE_URL}"
 
   curl -L -f "${FIRMWARE_URL}" -o firmware.zip || {
@@ -172,7 +255,22 @@ cd backpack
 
 readarray -t backpack_versions <<< "${BACKPACK_VERSIONS}"
 for version in "${backpack_versions[@]}"; do
-  BACKPACK_URL="https://github.com/${GITHUB_BACKPACK_REPO}/releases/download/v${version}/backpack-${version}.zip"
+  if ! release_json=$(fetch_release_json "${GITHUB_BACKPACK_REPO}" "v${version}"); then
+    echo ""
+    echo "❌ Error: Failed to fetch release metadata for backpack version ${version}"
+    echo ""
+    exit 1
+  fi
+
+  BACKPACK_URL=$(find_release_asset_url "${release_json}" "${version}" "backpack-")
+
+  if [ -z "${BACKPACK_URL}" ]; then
+    echo ""
+    echo "❌ Error: No backpack zip asset found for version ${version}"
+    echo ""
+    exit 1
+  fi
+
   echo "URL: ${BACKPACK_URL}"
 
   curl -L -f "${BACKPACK_URL}" -o backpack.zip || {
