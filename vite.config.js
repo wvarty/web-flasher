@@ -40,7 +40,7 @@ export default defineConfig({
       },
       // These files will always be available offline
       includeAssets: [
-        'favicon.ico',
+        'favicon.webp',
         'apple-touch-icon.png',
         'mask-icon.svg',
         'assets/{firmware,backpack}/index.json',
