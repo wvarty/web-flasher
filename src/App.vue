@@ -21,6 +21,11 @@ import logoUrl from './assets/brand/td-full-logo-white.png';
 const {mobile} = useDisplay();
 const appBarHeight = computed(() => (mobile.value ? 170 : 320));
 
+function goHome() {
+  resetState()
+  window.history.replaceState({}, '', window.location.pathname)
+}
+
 function stepPrev() {
   if (store.currentStep === 1) {
     resetState()
@@ -59,7 +64,9 @@ store.options.flashMethod = urlParams.get('method');
       <VAppBar :height="appBarHeight" class="td-app-bar" flat>
         <div class="td-app-bar__content td-app-bar__content--stack">
           <div class="td-brand">
-            <img class="td-logo" :src="logoUrl" alt="Titan Dynamics" />
+            <button class="td-logo-button" type="button" @click="goHome" aria-label="Back to landing page">
+              <img class="td-logo" :src="logoUrl" alt="Titan Dynamics" />
+            </button>
           </div>
           <div class="td-title__sub">TitanLRS Web Flasher</div>
         </div>
@@ -122,6 +129,18 @@ store.options.flashMethod = urlParams.get('method');
 .td-brand {
   display: flex;
   align-items: center;
+}
+
+.td-logo-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.td-logo-button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 6px;
 }
 
 .td-logo {
