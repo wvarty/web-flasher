@@ -89,7 +89,7 @@ defineProps(['image', 'hoverImage', 'title', 'text'])
   .option-card {
     gap: 12px;
     padding: 16px;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .option-icon {
